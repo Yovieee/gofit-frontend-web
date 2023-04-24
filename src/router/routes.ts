@@ -10,53 +10,67 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/UnifiedLayout.vue'),
     beforeEnter: () => {
       if (sessionStorage.getItem('user') == null) {
-        return { path: '/' }
+        return { path: '/' };
       }
     },
     children: [
       {
         path: '/panel/administrator',
         beforeEnter: () => {
-          if (JSON.parse(sessionStorage.getItem('user') || '').JABATAN_PEGAWAI != 0) {
-            return { path: '/panel' }
+          if (
+            JSON.parse(sessionStorage.getItem('user') || '').JABATAN_PEGAWAI !=
+            0
+          ) {
+            return { path: '/panel' };
           }
         },
         children: [
           {
             path: '/panel/admin/instructors',
-            component: () => import('src/components/AdminComponents/Instructors.vue'),
-          }
-        ]
+            component: () =>
+              import('src/components/AdminComponents/Instructors.vue'),
+          },
+        ],
       },
       {
         path: '/panel/operational-manager',
         beforeEnter: () => {
-          if (JSON.parse(sessionStorage.getItem('user') || '').JABATAN_PEGAWAI != 1) {
-            return { path: '/panel' }
+          if (
+            JSON.parse(sessionStorage.getItem('user') || '').JABATAN_PEGAWAI !=
+            1
+          ) {
+            return { path: '/panel' };
           }
         },
         children: [
           {
             path: '/panel/operational-manager/weekly-schedules',
-            component: () => import('src/components/OperationaManagerComponents/WeeklySchedules.vue'),
-          }
-        ]
+            component: () =>
+              import(
+                'src/components/OperationaManagerComponents/WeeklySchedules.vue'
+              ),
+          },
+        ],
       },
       {
         path: '/panel/cashier',
         beforeEnter: () => {
-          if (JSON.parse(sessionStorage.getItem('user') || '').JABATAN_PEGAWAI != 2) {
-            return { path: '/' }
+          if (
+            JSON.parse(sessionStorage.getItem('user') || '').JABATAN_PEGAWAI !=
+            2
+          ) {
+            return { path: '/panel' };
           }
         },
         children: [
           {
             path: '/panel/cashier/members',
-            component: () => import('src/components/CashierComponents/Members.vue'),
-          }
-        ]
-      }
-    ]
+            component: () =>
+              import('src/components/CashierComponents/Members.vue'),
+          },
+        ],
+      },
+    ],
   },
   // Always leave this as last one,
   // but you can also remove it
