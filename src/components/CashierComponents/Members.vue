@@ -1,5 +1,5 @@
 <template>
-  <div class="col text-h3 q-mx-md q-my-sm self-center">Members</div>
+  <div class="col text-h3 q-mx-md q-mt-md q-mb-md self-center">Members</div>
   <div class="q-px-md">
     <div class="no-margin" :style="rows.length == 0 ? 'display: block' : 'display: none'">
       <q-markup-table>
@@ -47,7 +47,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="n in 7" :key="n">
+          <tr v-for="n in 6" :key="n">
             <td class="text-left">
               <q-skeleton animation="blink" type="text" width="20px" />
             </td>
@@ -97,7 +97,7 @@
         </tbody>
       </q-markup-table>
     </div>
-    <q-table :filter="searchString" :rows="rows" :columns="columns" row-key="id" :rows-per-page-options="[7]"
+    <q-table :filter="searchString" :rows="rows" :columns="columns" row-key="id" :rows-per-page-options="[6]"
       :style="rows.length == 0 ? 'display: none' : 'display: block'">
       <template v-slot:top>
         <q-input outlined dense v-model="searchString" label="Search here...">
@@ -131,7 +131,8 @@
   </div>
   <q-dialog v-model="editDialog" persistent>
     <q-card style="min-width: 15cm;">
-      <q-form @submit="saveEditData">
+      <q-form
+        @submit="$q.dialog({ title: 'Confirm', message: 'Are you sure you want to save this data?', cancel: true, persistent: true }).onOk(() => { saveEditData() })">
         <q-card-section class="q-pb-none">
           <div class="text-h6">Edit Member</div>
         </q-card-section>
@@ -207,7 +208,8 @@
   </q-dialog>
   <q-dialog v-model="newDialog" persistent>
     <q-card style="min-width: 15cm;">
-      <q-form @submit="saveNewData">
+      <q-form
+        @submit="$q.dialog({ title: 'Confirm', message: 'Are you sure you want to save this data?', cancel: true, persistent: true }).onOk(() => { saveNewData() })">
         <q-card-section class="q-pb-none">
           <div class="text-h6">New Member</div>
         </q-card-section>
@@ -287,7 +289,7 @@
       </q-form>
     </q-card>
   </q-dialog>
-  <q-dialog v-model="memberCardDialog">
+  <q-dialog persistent v-model="memberCardDialog">
     <q-card>
       <q-card-section class="q-pb-none">
         <div class="row">

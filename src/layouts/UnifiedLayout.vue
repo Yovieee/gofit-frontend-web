@@ -1,6 +1,6 @@
 <template>
-  <q-layout>
-    <q-header elevated class="bg-primary text-white">
+  <q-layout v-if="$q.platform.is.desktop">
+    <q-header reveal elevated class="bg-primary text-white">
       <q-toolbar class="row">
         <q-btn dense flat round :icon="leftDrawerOpen ? 'arrow_back' : 'menu'" @click="toggleLeftDrawer" />
         <q-toolbar-title class="column">
@@ -14,10 +14,10 @@
             </q-avatar>
             <q-menu transition-show="scale" transition-hide="scale">
               <q-item class="text-center q-mt-xs text-h6" dense>
-                <q-item-section>{{ user.NAMA_USER }}</q-item-section>
+                <q-item-section class="text-no-wrap">{{ user.NAMA_USER }}</q-item-section>
               </q-item>
               <q-item class="text-center text-overline" dense>
-                <q-item-section>{{ user.JABATAN_PEGAWAI == 0 ? 'ADMINISTRATOR' :
+                <q-item-section class="text-no-wrap">{{ user.JABATAN_PEGAWAI == 0 ? 'ADMINISTRATOR' :
                   (user.JABATAN_PEGAWAI == 1 ? 'OPERATIONAL MANAGER' : 'CASHIER') }}</q-item-section>
               </q-item>
               <q-separator />
@@ -25,15 +25,17 @@
                 <q-item-section @click="settingsDialog = true">Settings</q-item-section>
               </q-item>
               <q-item clickable>
-                <q-item-section @click="logout">Logout</q-item-section>
+                <q-item-section
+                  @click="$q.dialog({ title: 'Confirm', message: 'Are you sure you want to logout?', cancel: true, persistent: true }).onOk(() => { logout() })">
+                  Logout</q-item-section>
               </q-item>
             </q-menu>
           </q-btn>
         </div>
       </q-toolbar>
     </q-header>
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered :mini="miniState" @mouseover="miniState = false"
-      @mouseout="miniState = true">
+    <q-drawer mini-to-overlay elevated show-if-above v-model="leftDrawerOpen" side="left" bordered :mini="miniState"
+      @mouseover="miniState = false" @mouseout="miniState = true">
       <q-scroll-area class="fit">
         <q-list>
           <q-item v-for="(menu, index) in menus" :key="index" clickable v-ripple :to="menu.to">
@@ -83,7 +85,9 @@
                         <q-spinner />
                       </div>
                       <q-expansion-item v-if="!changePasswordLoadingState" dense expand-separator label="Change Now">
-                        <q-form class="q-mt-sm">
+                        <q-form
+                          @submit="$q.dialog({ title: 'Confirm', message: 'Are you sure you want to continue changing password?', cancel: true, persistent: true }).onOk(() => { changePasswordProcess() })"
+                          class="q-mt-sm">
                           <q-input :rules="[(val) => val.length > 0 || 'Please enter current password']" dense outlined
                             v-model="changePasswordValue.current.value" type="password" label="Current Password" />
                           <q-input :rules="[(val) => val.length > 0 || 'Please enter new password']" dense outlined
@@ -91,8 +95,7 @@
                           <q-input :rules="[(val) => val == changePasswordValue.new.value || 'Password does not match!']"
                             dense outlined v-model="changePasswordValue.retype.value" type="password"
                             label="Retype New Password" />
-                          <q-btn class="float-right" type="submit" color="primary" icon="check"
-                            @click="changePasswordProcess" />
+                          <q-btn class="float-right" type="submit" color="primary" icon="check" />
                         </q-form>
                       </q-expansion-item>
                     </div>
@@ -105,7 +108,9 @@
       </q-card>
     </q-dialog>
     <q-page-container>
-      <router-view />
+      <q-page padding>
+        <router-view />
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
@@ -124,33 +129,33 @@ export default {
     const user = ref(JSON.parse(sessionStorage.getItem('user')))
     const menus = ref(
       user.value.JABATAN_PEGAWAI == 0 ?
-      [
-        {
-          label: 'Instructors',
-          icon: 'self_improvement',
-          to: '/panel/admin/instructors'
-        },
-      ]
-      :
-      (user.value.JABATAN_PEGAWAI == 1 ?
-      [
-        {
-          label: 'Weekly Schedules',
-          icon: 'date_range',
-          to: '/panel/operational-manager/weekly-schedules'
-        }
-      ]
-      :
-      [
-        {
-          label: 'Members',
-          icon: 'sentiment_satisfied',
-          to: '/panel/cashier/members'
-        }
-      ]))
+        [
+          {
+            label: 'Instructors',
+            icon: 'self_improvement',
+            to: '/panel/admin/instructors'
+          },
+        ]
+        :
+        (user.value.JABATAN_PEGAWAI == 1 ?
+          [
+            {
+              label: 'Weekly Schedules',
+              icon: 'date_range',
+              to: '/panel/operational-manager/weekly-schedules'
+            }
+          ]
+          :
+          [
+            {
+              label: 'Members',
+              icon: 'sentiment_satisfied',
+              to: '/panel/cashier/members'
+            }
+          ]))
     const miniState = ref(true)
     const settingsDialog = ref(false)
-    const darkMode = ref(false)
+    const darkMode = ref($q.dark.isActive)
     const changePasswordValue = {
       current: ref(''),
       new: ref(''),

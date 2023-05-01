@@ -31,48 +31,37 @@
         </q-tab-panels>
         <template v-for="(dayName, index) in dayNames" :key="index">
           <q-tab-panels v-model="tab" animated transition-prev="slide-right" transition-next="slide-left"
-            :class="index % 2 == 0 ? 'bg-grey-3' : 'bg-white'">
+            :class="$q.dark.isActive ? (index % 2 == 0 ? 'bg-grey-9' : 'bg-dark') : (index % 2 == 0 ? 'bg-grey-3' : 'bg-white')">
             <q-tab-panel name="morning">
               <div class="row">
                 <div class="col-2 text-h6">{{ dayName.label }}</div>
-                <div v-for="i in 9" :key="i" class="col text-center">
-                  <q-btn round dense unelevated color="primary" icon="arrow_drop_down">
-                    <q-menu auto-close anchor="bottom middle" self="top middle">
-                      <q-list separator>
-                        <q-item class="q-pt-sm" dense v-for="(morningSchedule, j) in data[index][i - 1]" :key="j">
-                          <q-item-section side>
-                            <q-item-label class="text-black">Class</q-item-label>
-                            <q-item-label caption>Instructor</q-item-label>
-                            <q-item-label class="q-pt-xs">
-                              <br>
-                            </q-item-label>
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label>
-                              {{ data[index][i - 1][j].NAMA_KELAS }}
-                            </q-item-label>
-                            <q-item-label caption>
-                              {{ data[index][i - 1][j].NAMA_USER }}
-                            </q-item-label>
-                            <div class="q-gutter-x-xs text-right">
-                              <q-btn flat color="positive" round size="xs" icon="edit"
-                                @click="showEditDialog(data[index][i - 1][j])" />
-                              <q-btn flat color="negative" round size="xs" icon="delete"
-                                @click="deleteDataConfirm(data[index][i - 1][j])" />
-                            </div>
-                          </q-item-section>
-                        </q-item>
-                        <q-item dense clickable class="text-center" @click="showNewDialog(i - 1, index)">
-                          <q-item-section>
-                            <div>
-                              <q-icon color="secondary" name="add" />
-                              New
-                            </div>
-                          </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </q-menu>
-                  </q-btn>
+                <div v-for="i in 9" :key="i" class="col text-center text-caption">
+                  <q-list separator>
+                    <q-item class="q-pt-sm" dense v-for="(morningSchedule, j) in data[index][i - 1]" :key="j">
+                      <q-item-section>
+                        <q-item-label>
+                          {{ data[index][i - 1][j].NAMA_KELAS }}
+                        </q-item-label>
+                        <q-item-label caption>
+                          {{ data[index][i - 1][j].NAMA_USER }}
+                        </q-item-label>
+                        <div class="q-gutter-x-xs text-right">
+                          <q-btn flat color="positive" round size="xs" icon="edit"
+                            @click="showEditDialog(data[index][i - 1][j])" />
+                          <q-btn flat color="negative" round size="xs" icon="delete"
+                            @click="deleteDataConfirm(data[index][i - 1][j])" />
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                    <q-item dense clickable class="text-center" @click="showNewDialog(i - 1, index)">
+                      <q-item-section>
+                        <div>
+                          <q-icon color="secondary" name="add" />
+                          New
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
                 </div>
               </div>
             </q-tab-panel>
@@ -80,43 +69,32 @@
               <div class="row">
                 <div class="col-2 text-h6">{{ dayName.label }}</div>
                 <div v-for="i in 9" :key="i" class="col text-center">
-                  <q-btn round dense unelevated color="primary" icon="arrow_drop_down">
-                    <q-menu auto-close anchor="bottom middle" self="top middle">
-                      <q-list separator>
-                        <q-item class="q-pt-sm" dense v-for="(morningSchedule, j) in data[index][i + 8]" :key="j">
-                          <q-item-section side>
-                            <q-item-label class="text-black">Class</q-item-label>
-                            <q-item-label caption>Instructor</q-item-label>
-                            <q-item-label class="q-pt-xs">
-                              <br>
-                            </q-item-label>
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label>
-                              {{ data[index][i + 8][j].NAMA_KELAS }}
-                            </q-item-label>
-                            <q-item-label caption>
-                              {{ data[index][i + 8][j].NAMA_USER }}
-                            </q-item-label>
-                            <div class="q-gutter-x-xs text-right">
-                              <q-btn flat color="positive" round size="xs" icon="edit"
-                                @click="showEditDialog(data[index][i + 8][j])" />
-                              <q-btn flat color="negative" round size="xs" icon="delete"
-                                @click="deleteDataConfirm(data[index][i + 8][j])" />
-                            </div>
-                          </q-item-section>
-                        </q-item>
-                        <q-item dense clickable class="text-center" @click="showNewDialog(i + 8, index)">
-                          <q-item-section>
-                            <div>
-                              <q-icon color="secondary" name="add" />
-                              New
-                            </div>
-                          </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </q-menu>
-                  </q-btn>
+                  <q-list separator>
+                    <q-item class="q-pt-sm" dense v-for="(eveningSchedule, j) in data[index][i + 8]" :key="j">
+                      <q-item-section>
+                        <q-item-label>
+                          {{ data[index][i + 8][j].NAMA_KELAS }}
+                        </q-item-label>
+                        <q-item-label caption>
+                          {{ data[index][i + 8][j].NAMA_USER }}
+                        </q-item-label>
+                        <div class="q-gutter-x-xs text-right">
+                          <q-btn flat color="positive" round size="xs" icon="edit"
+                            @click="showEditDialog(data[index][i + 8][j])" />
+                          <q-btn flat color="negative" round size="xs" icon="delete"
+                            @click="deleteDataConfirm(data[index][i + 8][j])" />
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                    <q-item dense clickable class="text-center" @click="showNewDialog(i + 8, index)">
+                      <q-item-section>
+                        <div>
+                          <q-icon color="secondary" name="add" />
+                          New
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
                 </div>
               </div>
             </q-tab-panel>
@@ -127,11 +105,14 @@
   </div>
   <q-dialog v-model="editDialog" persistent>
     <q-card style="min-width: 15cm;">
-      <q-form @submit="saveEditData">
+      <q-form
+        @submit="$q.dialog({ title: 'Confirm', message: 'Are you sure you want to save this data?', cancel: true, persistent: true }).onOk(() => { saveEditData() })">
         <q-card-section class="q-pb-none row">
           <div class="text-h6 q-pt-xs col-auto">Edit Schedule for&nbsp;</div>
           <div class="col-auto">
-            <q-select class="text-h6" hide-dropdown-icon dense map-options v-model="editData.dayOfWeeklySchedule.value" :options="dayNames" borderless emit-value>
+            <q-select @update:model-value="val => refreshUnavailableInstructors(editData.scheduleSession.value, val)"
+              class="text-h6" hide-dropdown-icon dense map-options v-model="editData.dayOfWeeklySchedule.value"
+              :options="dayNames" borderless emit-value>
               <q-tooltip anchor="top middle" self="center middle">
                 Click to change day of the week
               </q-tooltip>
@@ -139,7 +120,9 @@
           </div>
           <div class="text-h6 q-pt-xs col-auto">&nbsp;at&nbsp;</div>
           <div class="col-auto">
-            <q-select class="text-h6" hide-dropdown-icon dense map-options v-model="editData.scheduleSession.value" :options="morningTimes.concat(eveningTimes)" borderless emit-value>
+            <q-select @update:model-value="val => refreshUnavailableInstructors(val, editData.dayOfWeeklySchedule.value)"
+              class="text-h6" hide-dropdown-icon dense map-options v-model="editData.scheduleSession.value"
+              :options="morningTimes.concat(eveningTimes)" borderless emit-value>
               <q-tooltip anchor="top middle" self="center middle">
                 Click to change session
               </q-tooltip>
@@ -147,15 +130,17 @@
           </div>
         </q-card-section>
         <q-card-section class="q-pb-none q-pt-lg">
-          <q-field class="q-mb-md q-pb-xs" v-if="instructorAndClassLoadingState" dense outlined label="Instructor"
-            stack-label>
+          <q-field class="q-mb-md q-pb-xs" v-if="!(instructors.length > 0 && unavailableInstructors)" dense outlined
+            label="Instructor" stack-label>
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0"><q-skeleton /></div>
             </template>
           </q-field>
-          <q-select v-if="!instructorAndClassLoadingState" option-label="NAMA_USER" :options="availableInstructor"
-            autocomplete="NAMA_USER" dense outlined v-model="editData.instructor.value" label="Instructors"
-            :rules="[val => !!val || 'Instructor is missing']">
+          <q-select v-if="instructors.length > 0 && unavailableInstructors" option-label="NAMA_USER"
+            :options="instructors" autocomplete="NAMA_USER" dense outlined v-model="editData.instructor.value"
+            label="Instructors"
+            :rules="[val => !!val || 'Instructor is missing', val => ((editDataPrevious.instructor.value.ID_INSTRUKTUR == editData.instructor.value.ID_INSTRUKTUR && editDataPrevious.dayOfWeeklySchedule.value == editData.dayOfWeeklySchedule.value
+                && editDataPrevious.scheduleSession.value == editData.scheduleSession.value) || unavailableInstructors.filter(ui => ui.ID_INSTRUKTUR == val.ID_INSTRUKTUR && ui.ID_INSTRUKTUR).length == 0) || 'This instructor is unavailable']">
             <template v-slot:option="scope">
               <q-item v-bind="scope.itemProps">
                 <q-item-section avatar>
@@ -175,14 +160,13 @@
           </q-select>
         </q-card-section>
         <q-card-section class="q-pb-none q-pt-xs">
-          <q-field class="q-mb-md q-pb-xs" v-if="instructorAndClassLoadingState || editLoadingState" dense outlined label="Class" stack-label>
+          <q-field class="q-mb-md q-pb-xs" v-if="classes.length == 0" dense outlined label="Class" stack-label>
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0"><q-skeleton /></div>
             </template>
           </q-field>
-          <q-select v-if="!(instructorAndClassLoadingState || editLoadingState)" option-label="NAMA_KELAS" :options="classes"
-            autocomplete="NAMA_KELAS" dense outlined v-model="editData.class.value" label="Class"
-            :rules="[val => !!val || 'Class is missing']" />
+          <q-select v-if="classes.length > 0" option-label="NAMA_KELAS" :options="classes" autocomplete="NAMA_KELAS" dense
+            outlined v-model="editData.class.value" label="Class" :rules="[val => !!val || 'Class is missing']" />
         </q-card-section>
         <q-card-section>
           <div class="row justify-end">
@@ -195,21 +179,41 @@
   </q-dialog>
   <q-dialog v-model="newDialog" persistent>
     <q-card style="min-width: 15cm;">
-      <q-form @submit="saveNewData">
-        <q-card-section class="q-pb-none">
-          <div class="text-h6">New Schedule from {{ dayNames[newData.dayOfWeeklySchedule.value].label }} at {{
-            morningTimes.concat(eveningTimes)[newData.scheduleSession.value].label }}</div>
+      <q-form
+        @submit="$q.dialog({ title: 'Confirm', message: 'Are you sure you want to save this data?', cancel: true, persistent: true }).onOk(() => { saveNewData() })">
+        <q-card-section class="q-pb-none row">
+          <div class="text-h6 q-pt-xs col-auto">New Schedule for&nbsp;</div>
+          <div class="col-auto">
+            <q-select @update:model-value="val => refreshUnavailableInstructors(newData.scheduleSession.value, val)"
+              class="text-h6" hide-dropdown-icon dense map-options v-model="newData.dayOfWeeklySchedule.value"
+              :options="dayNames" borderless emit-value>
+              <q-tooltip anchor="top middle" self="center middle">
+                Click to change day of the week
+              </q-tooltip>
+            </q-select>
+          </div>
+          <div class="text-h6 q-pt-xs col-auto">&nbsp;at&nbsp;</div>
+          <div class="col-auto">
+            <q-select @update:model-value="val => refreshUnavailableInstructors(val, newData.dayOfWeeklySchedule.value)"
+              class="text-h6" hide-dropdown-icon dense map-options v-model="newData.scheduleSession.value"
+              :options="morningTimes.concat(eveningTimes)" borderless emit-value>
+              <q-tooltip anchor="top middle" self="center middle">
+                Click to change session
+              </q-tooltip>
+            </q-select>
+          </div>
         </q-card-section>
         <q-card-section class="q-pb-none q-pt-lg">
-          <q-field class="q-mb-md q-pb-xs" v-if="instructorAndClassLoadingState" dense outlined label="Instructor"
-            stack-label>
+          <q-field class="q-mb-md q-pb-xs" v-if="!(instructors.length > 0 && unavailableInstructors)" dense outlined
+            label="Instructor" stack-label>
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0"><q-skeleton /></div>
             </template>
           </q-field>
-          <q-select v-if="!instructorAndClassLoadingState" option-label="NAMA_USER" :options="availableInstructor"
-            autocomplete="NAMA_USER" dense outlined v-model="newData.instructor.value" label="Instructors"
-            :rules="[val => !!val || 'Instructor is missing']">
+          <q-select v-if="instructors.length > 0 && unavailableInstructors" option-label="NAMA_USER"
+            :options="instructors" autocomplete="NAMA_USER" dense outlined v-model="newData.instructor.value"
+            label="Instructors"
+            :rules="[val => !!val || 'Instructor is missing', val => unavailableInstructors.filter(ui => ui.ID_INSTRUKTUR == val.ID_INSTRUKTUR).length == 0 || 'This instructor is unavailable']">
             <template v-slot:option="scope">
               <q-item v-bind="scope.itemProps">
                 <q-item-section avatar>
@@ -229,14 +233,13 @@
           </q-select>
         </q-card-section>
         <q-card-section class="q-pb-none q-pt-xs">
-          <q-field class="q-mb-md q-pb-xs" v-if="instructorAndClassLoadingState" dense outlined label="Class" stack-label>
+          <q-field class="q-mb-md q-pb-xs" v-if="classes.length == 0" dense outlined label="Class" stack-label>
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0"><q-skeleton /></div>
             </template>
           </q-field>
-          <q-select v-if="!instructorAndClassLoadingState" option-label="NAMA_KELAS" :options="classes"
-            autocomplete="NAMA_KELAS" dense outlined v-model="newData.class.value" label="Class"
-            :rules="[val => !!val || 'Class is missing']" />
+          <q-select v-if="classes.length > 0" option-label="NAMA_KELAS" :options="classes" autocomplete="NAMA_KELAS" dense
+            outlined v-model="newData.class.value" label="Class" :rules="[val => !!val || 'Class is missing']" />
         </q-card-section>
         <q-card-section>
           <div class="row justify-end">
@@ -370,12 +373,19 @@ export default defineComponent({
         value: '17'
       }]
     const data = ref([])
-    const availableInstructor = ref([])
-    const instructorAndClassLoadingState = ref(true)
-    const editLoadingState = ref(true)
+    const instructors = ref([])
+    const unavailableInstructors = ref(null)
     const classes = ref([])
     const editDialog = ref(false)
     const editData = {
+      idSchedule: ref(''),
+      idWeeklySchedule: ref(''),
+      instructor: ref(null),
+      class: ref(null),
+      scheduleSession: ref(null),
+      dayOfWeeklySchedule: ref(null)
+    }
+    const editDataPrevious = {
       idSchedule: ref(''),
       idWeeklySchedule: ref(''),
       instructor: ref(null),
@@ -411,8 +421,9 @@ export default defineComponent({
           })
         })
     }
-    function availableInstructorAndClass(session, day) {
-      api.post('/jadwalPaket/availableInstructorAndClass', {
+    function refreshUnavailableInstructors(session, day) {
+      unavailableInstructors.value = null
+      api.post('/jadwalPaket/unavailableInstructors', {
         HARI_JADWAL_PAKET: day,
         SESI_JADWAL: session
       },
@@ -420,13 +431,11 @@ export default defineComponent({
           withCredentials: true
         })
         .then(response => {
-          availableInstructor.value = response.data[0].concat(availableInstructor.value)
-          classes.value = response.data[1]
-          instructorAndClassLoadingState.value = false
+          unavailableInstructors.value = response.data
         })
         .catch(() => {
           $q.notify({
-            message: 'An error occurred while getting available instructors and classes',
+            message: 'An error occurred while getting unavailable instructors',
             color: 'negative',
             position: 'top-right'
           })
@@ -439,25 +448,15 @@ export default defineComponent({
       editData.idWeeklySchedule.value = schedule.ID_JADWAL_PAKET
       editData.scheduleSession.value = schedule.SESI_JADWAL
       editData.dayOfWeeklySchedule.value = schedule.HARI_JADWAL_PAKET
-      api.post('/jadwalPaket/retrieveInstructorAndClass', {
-        ID_INSTRUKTUR: schedule.ID_INSTRUKTUR,
-        ID_KELAS: schedule.ID_KELAS
-      }, { withCredentials: true })
-        .then(response => {
-          editData.instructor.value = response.data[0]
-          availableInstructor.value = [response.data[0]].concat(availableInstructor.value)
-          editData.class.value = response.data[1]
-          editLoadingState.value = false
-        })
-        .catch(() => {
-          $q.notify({
-            message: 'An error occurred while getting instructor and class',
-            color: 'negative',
-            position: 'top-right'
-          })
-          closeEditDialog()
-        })
-      availableInstructorAndClass(schedule.SESI_JADWAL, schedule.HARI_JADWAL_PAKET)
+      editData.instructor.value = instructors.value.filter(i => i.ID_INSTRUKTUR == schedule.ID_INSTRUKTUR)[0]
+      editData.class.value = classes.value.filter(c => c.ID_KELAS == schedule.ID_KELAS)[0]
+      editDataPrevious.idSchedule.value = schedule.ID_JADWAL
+      editDataPrevious.idWeeklySchedule.value = schedule.ID_JADWAL_PAKET
+      editDataPrevious.scheduleSession.value = schedule.SESI_JADWAL
+      editDataPrevious.dayOfWeeklySchedule.value = schedule.HARI_JADWAL_PAKET
+      editDataPrevious.instructor.value = instructors.value.filter(i => i.ID_INSTRUKTUR == schedule.ID_INSTRUKTUR)[0]
+      editDataPrevious.class.value = classes.value.filter(c => c.ID_KELAS == schedule.ID_KELAS)[0]
+      refreshUnavailableInstructors(schedule.SESI_JADWAL, schedule.HARI_JADWAL_PAKET)
     }
     function closeEditDialog() {
       editDialog.value = false
@@ -467,19 +466,21 @@ export default defineComponent({
       editData.class.value = null
       editData.scheduleSession.value = null
       editData.dayOfWeeklySchedule.value = null
-      instructorAndClassLoadingState.value = true
-      editLoadingState.value = true
-      availableInstructor.value = []
-      classes.value = []
+      editDataPrevious.idSchedule.value = ''
+      editDataPrevious.idWeeklySchedule.value = ''
+      editDataPrevious.instructor.value = null
+      editDataPrevious.class.value = null
+      editDataPrevious.scheduleSession.value = null
+      editDataPrevious.dayOfWeeklySchedule.value = null
     }
 
     function showNewDialog(session, day) {
       newDialog.value = true
       newData.idSchedule.value = nanoid(32)
       newData.idWeeklySchedule.value = nanoid(32)
-      newData.scheduleSession.value = session
-      newData.dayOfWeeklySchedule.value = day
-      availableInstructorAndClass(session, day)
+      newData.scheduleSession.value = session.toString()
+      newData.dayOfWeeklySchedule.value = day.toString()
+      refreshUnavailableInstructors(session, day)
     }
     function closeNewDialog() {
       newDialog.value = false
@@ -489,9 +490,6 @@ export default defineComponent({
       newData.class.value = null
       newData.scheduleSession.value = null
       newData.dayOfWeeklySchedule.value = null
-      instructorAndClassLoadingState.value = true
-      availableInstructor.value = []
-      classes.value = []
     }
     function deleteData(idSchedule, idWeeklySchedule) {
       api.post('/jadwalPaket/delete', {
@@ -590,17 +588,46 @@ export default defineComponent({
     }
     onMounted(() => {
       fetchWeeklySchedules()
+      api.get('/instruktur/',
+        {
+          withCredentials: true
+        })
+        .then(response => {
+          instructors.value = response.data
+        })
+        .catch(() => {
+          $q.notify({
+            message: 'An error occurred while getting list of instructors',
+            color: 'negative',
+            position: 'top-right'
+          })
+        })
+      api.get('/kelas/',
+        {
+          withCredentials: true
+        })
+        .then(response => {
+          classes.value = response.data
+        })
+        .catch(() => {
+          $q.notify({
+            message: 'An error occurred while getting list of classes',
+            color: 'negative',
+            position: 'top-right'
+          })
+        })
     })
     return {
+      $q,
       dayNames,
       morningTimes,
       eveningTimes,
       data,
-      availableInstructor,
-      instructorAndClassLoadingState,
-      editLoadingState,
+      instructors,
+      unavailableInstructors,
       classes,
       editData,
+      editDataPrevious,
       editDialog,
       editDataPhotoHover,
       showEditDialog,
@@ -615,7 +642,9 @@ export default defineComponent({
       saveNewData,
       searchString,
       fetchWeeklySchedules,
-      tab
+      refreshUnavailableInstructors,
+      tab,
+      console
     }
   }
 });

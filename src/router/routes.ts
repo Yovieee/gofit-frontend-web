@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: '/panel/administrator',
+        path: '/panel/admin',
         beforeEnter: () => {
           if (
             JSON.parse(sessionStorage.getItem('user') || '').JABATAN_PEGAWAI !=
