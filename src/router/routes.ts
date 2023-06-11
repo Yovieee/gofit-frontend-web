@@ -15,6 +15,10 @@ const routes: RouteRecordRaw[] = [
     },
     children: [
       {
+        path: '/panel',
+        component: () => import('src/components/UnifiedDashboard.vue'),
+      },
+      {
         path: '/panel/admin',
         beforeEnter: () => {
           if (
@@ -50,6 +54,48 @@ const routes: RouteRecordRaw[] = [
                 'src/components/OperationaManagerComponents/WeeklySchedules.vue'
               ),
           },
+          {
+            path: '/panel/operational-manager/daily-schedules',
+            component: () =>
+              import(
+                'src/components/OperationaManagerComponents/DailySchedules.vue'
+              ),
+          },
+          {
+            path: '/panel/operational-manager/instructor-attendances',
+            component: () =>
+              import(
+                'src/components/OperationaManagerComponents/InstructorAttendances.vue'
+              ),
+          },
+          {
+            path: '/panel/operational-manager/income-reports',
+            component: () =>
+              import(
+                'src/components/OperationaManagerComponents/IncomeReports.vue'
+              ),
+          },
+          {
+            path: '/panel/operational-manager/class-activity-reports',
+            component: () =>
+              import(
+                'src/components/OperationaManagerComponents/ClassActivityReports.vue'
+              ),
+          },
+          {
+            path: '/panel/operational-manager/gym-activity-reports',
+            component: () =>
+              import(
+                'src/components/OperationaManagerComponents/GymActivityReports.vue'
+              ),
+          },
+          {
+            path: '/panel/operational-manager/instructor-performance-reports',
+            component: () =>
+              import(
+                'src/components/OperationaManagerComponents/InstructorPerformanceReports.vue'
+              ),
+          },
         ],
       },
       {
@@ -67,6 +113,16 @@ const routes: RouteRecordRaw[] = [
             path: '/panel/cashier/members',
             component: () =>
               import('src/components/CashierComponents/Members.vue'),
+          },
+          {
+            path: '/panel/cashier/gym-attendances',
+            component: () =>
+              import('src/components/CashierComponents/GymAttendances.vue'),
+          },
+          {
+            path: '/panel/cashier/class-attendances',
+            component: () =>
+              import('src/components/CashierComponents/ClassAttendances.vue'),
           },
         ],
       },

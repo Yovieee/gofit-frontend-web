@@ -41,9 +41,15 @@
                       <q-item-section>
                         <q-item-label>
                           {{ data[index][i - 1][j].NAMA_KELAS }}
+                          <q-tooltip anchor="center left" self="center end">
+                            Class name
+                          </q-tooltip>
                         </q-item-label>
                         <q-item-label caption>
                           {{ data[index][i - 1][j].NAMA_USER }}
+                          <q-tooltip anchor="center left" self="center end">
+                            Instructor name
+                          </q-tooltip>
                         </q-item-label>
                         <div class="q-gutter-x-xs text-right">
                           <q-btn flat color="positive" round size="xs" icon="edit"
@@ -74,9 +80,15 @@
                       <q-item-section>
                         <q-item-label>
                           {{ data[index][i + 8][j].NAMA_KELAS }}
+                          <q-tooltip anchor="center left" self="center end">
+                            Class name
+                          </q-tooltip>
                         </q-item-label>
                         <q-item-label caption>
                           {{ data[index][i + 8][j].NAMA_USER }}
+                          <q-tooltip anchor="center left" self="center end">
+                            Instructor name
+                          </q-tooltip>
                         </q-item-label>
                         <div class="q-gutter-x-xs text-right">
                           <q-btn flat color="positive" round size="xs" icon="edit"
@@ -165,8 +177,8 @@
               <div class="self-center full-width no-outline" tabindex="0"><q-skeleton /></div>
             </template>
           </q-field>
-          <q-select v-if="classes.length > 0" option-label="NAMA_KELAS" :options="classes" autocomplete="NAMA_KELAS" dense
-            outlined v-model="editData.class.value" label="Class" :rules="[val => !!val || 'Class is missing']" />
+          <q-select v-if="classes.length > 0" option-label="NAMA_KELAS" :options="classes" dense outlined
+            v-model="editData.class.value" label="Class" :rules="[val => !!val || 'Class is missing']" />
         </q-card-section>
         <q-card-section>
           <div class="row justify-end">
@@ -211,8 +223,7 @@
             </template>
           </q-field>
           <q-select v-if="instructors.length > 0 && unavailableInstructors" option-label="NAMA_USER"
-            :options="instructors" autocomplete="NAMA_USER" dense outlined v-model="newData.instructor.value"
-            label="Instructors"
+            :options="instructors" dense outlined v-model="newData.instructor.value" label="Instructors"
             :rules="[val => !!val || 'Instructor is missing', val => unavailableInstructors.filter(ui => ui.ID_INSTRUKTUR == val.ID_INSTRUKTUR).length == 0 || 'This instructor is unavailable']">
             <template v-slot:option="scope">
               <q-item v-bind="scope.itemProps">

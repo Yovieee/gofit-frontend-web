@@ -7,21 +7,21 @@
           <q-card-section>
             <q-img src="src\assets\undraw_login_re_4vu2.svg" />
             <h6 class="q-ma-md">Please login to your account...</h6>
-            <q-input class="q-mb-md" outlined v-model="loginForm.email.value" label="Email" :rules="[ (val, rules) => rules.email(val) || 'Please enter a valid email address' ]">
+            <q-input class="q-mb-md" outlined v-model="loginForm.email.value" label="Email"
+              :rules="[(val, rules) => rules.email(val) || 'Please enter a valid email address']">
               <template v-slot:prepend>
                 <q-icon name="mail" />
               </template>
             </q-input>
-            <q-input :type="showPassword ? 'password' : 'text'" class="q-mb-sm" outlined v-model="loginForm.password.value" label="Password" :rules="[ (val) => val.length > 0 || 'Please enter a password' ]">
+            <q-input :type="showPassword ? 'password' : 'text'" class="q-mb-sm" outlined
+              v-model="loginForm.password.value" label="Password"
+              :rules="[(val) => val.length > 0 || 'Please enter a password']">
               <template v-slot:prepend>
                 <q-icon name="lock" />
               </template>
               <template v-slot:append>
-                <q-icon
-                  :name="showPassword ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="showPassword = !showPassword"
-                />
+                <q-icon :name="showPassword ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                  @click="showPassword = !showPassword" />
               </template>
             </q-input>
             <div class="row justify-end">
@@ -61,9 +61,9 @@ export default defineComponent({
       api.post('/autentikasi/login', {
         EMAIL: loginForm.email.value,
         PASSWORD: loginForm.password.value
-      }, {withCredentials: true})
+      }, { withCredentials: true })
         .then((response) => {
-          if(response.data['ID_PEGAWAI']!=null) {
+          if (response.data['ID_PEGAWAI'] != null) {
             $q.notify({
               message: 'Welcome back, ' + response.data.NAMA_USER + '!',
               color: 'positive',
